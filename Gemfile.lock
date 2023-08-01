@@ -1,0 +1,15 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    json (2.6.3)
+    porter-stemmer (0.0.1)
+
+PLATFORMS
+  x86_64-linux
+
+DEPENDENCIES
+  json (~> 2.6, >= 2.6.3)
+  porter-stemmer (~> 0.0.1)
+
+BUNDLED WITH
+   2.3.5
