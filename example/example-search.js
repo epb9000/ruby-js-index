@@ -1,4 +1,4 @@
-function TestSearch(search,fuzziness) {
+function exampleSearch(search,fuzziness) {
 
     if (search.replace(/\s+/, '') == "") {
         return [];
@@ -114,7 +114,7 @@ function TestSearch(search,fuzziness) {
     let fuzz = fuzziness || 1;
     //str.downcase.sub(/["']/,"").split(/[^\w0-9]+/)
     // Actually do a very simple search.
-    let index_content = {"documents":["idline","longdouble","drilldozer"],"index":{"remain":[0],"line":[0],"index":[0,2],"text":[0],"long":[1],"doubl":[1],"construct":[1],"imagin":[1],"game":[1,2],"drill":[2],"dozer":[2],"receiv":[2],"posit":[2],"review":[2],"releas":[2],"consid":[2],"boi":[2],"advanc":[2],"time":[2]}};
+    let index_content = {"documents":["idline","longdouble","drilldozer"],"index":{"remain":[0],"line":[0],"index":[0,2],"text":[0],"long":[1],"doubl":[1],"construct":[1],"imagin":[1],"game":[1,2],"drill":[2],"dozer":[2],"receiv":[2],"posit":[2],"review":[2],"releas":[2],"consid":[2],"boi":[2],"advanc":[2],"time":[2]},"idf":{"remain":0.47712125471966244,"line":0.47712125471966244,"index":0.17609125905568124,"text":0.47712125471966244,"long":0.47712125471966244,"doubl":0.47712125471966244,"construct":0.47712125471966244,"imagin":0.47712125471966244,"game":0.17609125905568124,"drill":0.47712125471966244,"dozer":0.47712125471966244,"receiv":0.47712125471966244,"posit":0.47712125471966244,"review":0.47712125471966244,"releas":0.47712125471966244,"consid":0.47712125471966244,"boi":0.47712125471966244,"advanc":0.47712125471966244,"time":0.47712125471966244}};
     let terms = search.toLowerCase().replace(/["']/g, "").split(/[^\w0-9]+/)
     let index = 0;
     let matches = [];
@@ -129,7 +129,7 @@ function TestSearch(search,fuzziness) {
             for (index_term in index_content.index) {
                 if (levenshtein(index_term, stemmed_term) <= fuzz ||
                     levenshtein(index_term, term) <= fuzz) {
-                    matches.push(index_content.index[index_term]);
+                    matches.push({"t":index_term,"match_docs":index_content.index[index_term]});
                 }
             }
         }
@@ -141,9 +141,11 @@ function TestSearch(search,fuzziness) {
     let docs = {};
     let x = 0;
     for(index = 0; index < matches.length; index++) {
-        for (x = 0; x < matches[index].length; x++) {
-            let document_name = index_content.documents[matches[index][x]];
-            docs[document_name] = docs[document_name] ? docs[document_name] + 1 : 1;
+        let docs_matched = matches[index].match_docs;
+        let termIdf = index_content.idf[matches[index].t];
+        for (x = 0; x < docs_matched.length; x++) {
+            let document_name = index_content.documents[docs_matched[x]];
+            docs[document_name] = docs[document_name] ? docs[document_name] + termIdf : termIdf;
         }
     }
     let return_docs = [];

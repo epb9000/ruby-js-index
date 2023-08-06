@@ -4,6 +4,7 @@ class QuickJsIndex
         @stopwords = []
         @docs = []
         @index = {}
+        @indexIdf = {}
         @stemmer = ::Porter::Stemmer.new
     end
 
@@ -43,9 +44,14 @@ class QuickJsIndex
             end
             incrementer += 1
         end
+        #Calculate IDF scores
+        total_docs = @docs.length.to_f
+        @index.each do |token,matched_docs|
+            @indexIdf[token] = Math.log10(total_docs/matched_docs.length.to_f)
+        end
     end
 
     def index_json()
-        {"documents":@docs, "index":@index}.to_json
+        {"documents":@docs, "index":@index, "idf":@indexIdf}.to_json
     end
 end

@@ -129,7 +129,7 @@ function ___OUTPUTNAME___(search,fuzziness) {
             for (index_term in index_content.index) {
                 if (levenshtein(index_term, stemmed_term) <= fuzz ||
                     levenshtein(index_term, term) <= fuzz) {
-                    matches.push(index_content.index[index_term]);
+                    matches.push({"t":index_term,"match_docs":index_content.index[index_term]});
                 }
             }
         }
@@ -141,9 +141,11 @@ function ___OUTPUTNAME___(search,fuzziness) {
     let docs = {};
     let x = 0;
     for(index = 0; index < matches.length; index++) {
-        for (x = 0; x < matches[index].length; x++) {
-            let document_name = index_content.documents[matches[index][x]];
-            docs[document_name] = docs[document_name] ? docs[document_name] + 1 : 1;
+        let docs_matched = matches[index].match_docs;
+        let termIdf = index_content.idf[matches[index].t];
+        for (x = 0; x < docs_matched.length; x++) {
+            let document_name = index_content.documents[docs_matched[x]];
+            docs[document_name] = docs[document_name] ? docs[document_name] + termIdf : termIdf;
         }
     }
     let return_docs = [];
