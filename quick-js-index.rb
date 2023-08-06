@@ -2,6 +2,7 @@ class QuickJsIndex
     def initialize()
         @RawDocuments = []
         @stopwords = []
+        @docsMeta = {}
         @docs = []
         @index = {}
         @indexIdf = {}
@@ -26,6 +27,11 @@ class QuickJsIndex
         @RawDocuments.append(dict)
     end
 
+    def add_rich_document(id, metadata, text)
+        tokens = tokenize_and_stem_english(text)
+        @RawDocuments.append({"id":id,"tokens":tokens,"meta":metadata})
+    end
+
     def tokenize_and_stem_english(str)
         words = str.downcase.sub(/["']/,"").split(/[^\w0-9]+/) - @stopwords
         words.map!{ |x| @stemmer.stem(x) }
@@ -36,6 +42,9 @@ class QuickJsIndex
         incrementer = 0
         @RawDocuments.each do |doc|
             @docs.append(doc["id"])
+            if doc.key?("meta")
+                @docsMeta[doc["id"]] = doc["meta"]
+            end
             doc["tokens"].each do |token|
                 if @index.key?(token) == false
                     @index[token] = []
@@ -52,6 +61,6 @@ class QuickJsIndex
     end
 
     def index_json()
-        {"documents":@docs, "index":@index, "idf":@indexIdf}.to_json
+        {"docmeta":@docsMeta,"documents":@docs, "index":@index, "idf":@indexIdf}.to_json
     end
 end

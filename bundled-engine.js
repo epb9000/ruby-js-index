@@ -150,7 +150,7 @@ function ___OUTPUTNAME___(search,fuzziness) {
     }
     let return_docs = [];
     for (doc in docs) {
-        return_docs.push({"document": doc, "score": docs[doc]});
+        return_docs.push({"document": doc, "score": docs[doc], "meta":(index_content.docmeta[doc] || null) });
     }
     return return_docs.sort(function(a,b) {
         return b.score - a.score;
