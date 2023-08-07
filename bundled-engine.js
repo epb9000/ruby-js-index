@@ -152,7 +152,7 @@ function ___OUTPUTNAME___(search,fuzziness) {
     for (doc in docs) {
         return_docs.push({"document": doc, "score": docs[doc], "meta":(index_content.docmeta[doc] || null) });
     }
-    return_docs.filter(function(entry) {return entry.score>0;});
+    return_docs = return_docs.filter(function(entry) {return entry.score>0;});
     return return_docs.sort(function(a,b) {
         return b.score - a.score;
     });
