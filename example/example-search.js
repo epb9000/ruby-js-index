@@ -114,7 +114,7 @@ function exampleSearch(search,fuzziness) {
     let fuzz = fuzziness || 1;
     //str.downcase.sub(/["']/,"").split(/[^\w0-9]+/)
     // Actually do a very simple search.
-    let index_content = {"docmeta":{},"documents":["idline","longdouble","drilldozer"],"index":{"remain":[0],"line":[0],"index":[0,2],"text":[0],"long":[1],"doubl":[1],"construct":[1],"imagin":[1],"game":[1,2],"drill":[2],"dozer":[2],"receiv":[2],"posit":[2],"review":[2],"releas":[2],"consid":[2],"boi":[2],"advanc":[2],"time":[2]},"idf":{"remain":0.47712125471966244,"line":0.47712125471966244,"index":0.17609125905568124,"text":0.47712125471966244,"long":0.47712125471966244,"doubl":0.47712125471966244,"construct":0.47712125471966244,"imagin":0.47712125471966244,"game":0.17609125905568124,"drill":0.47712125471966244,"dozer":0.47712125471966244,"receiv":0.47712125471966244,"posit":0.47712125471966244,"review":0.47712125471966244,"releas":0.47712125471966244,"consid":0.47712125471966244,"boi":0.47712125471966244,"advanc":0.47712125471966244,"time":0.47712125471966244}};
+    let index_content = {"docmeta":{"rich-document-example.json":{"title":"A Rich Document Example"}},"documents":["idline","longdouble","rich-document-example.json","drilldozer"],"index":{"remain":[0],"line":[0],"index":[0,3],"text":[0],"long":[1],"doubl":[1],"construct":[1],"imagin":[1],"game":[1,3],"rich":[2],"document":[2],"addit":[2],"metadata":[2],"json":[2],"drill":[3],"dozer":[3],"receiv":[3],"posit":[3],"review":[3],"releas":[3],"consid":[3],"boi":[3],"advanc":[3],"time":[3]},"idf":{"remain":0.6020599913279624,"line":0.6020599913279624,"index":0.3010299956639812,"text":0.6020599913279624,"long":0.6020599913279624,"doubl":0.6020599913279624,"construct":0.6020599913279624,"imagin":0.6020599913279624,"game":0.3010299956639812,"rich":0.6020599913279624,"document":0.6020599913279624,"addit":0.6020599913279624,"metadata":0.6020599913279624,"json":0.6020599913279624,"drill":0.6020599913279624,"dozer":0.6020599913279624,"receiv":0.6020599913279624,"posit":0.6020599913279624,"review":0.6020599913279624,"releas":0.6020599913279624,"consid":0.6020599913279624,"boi":0.6020599913279624,"advanc":0.6020599913279624,"time":0.6020599913279624}};
     let terms = search.toLowerCase().replace(/["']/g, "").split(/[^\w0-9]+/)
     let index = 0;
     let matches = [];
@@ -150,7 +150,7 @@ function exampleSearch(search,fuzziness) {
     }
     let return_docs = [];
     for (doc in docs) {
-        return_docs.push({"document": doc, "score": docs[doc], "meta":(index_content.docsmeta[doc] || null) });
+        return_docs.push({"document": doc, "score": docs[doc], "meta":(index_content.docmeta[doc] || null) });
     }
     return return_docs.sort(function(a,b) {
         return b.score - a.score;

@@ -1,3 +1,6 @@
+require "porter-stemmer"
+require "json"
+
 class QuickJsIndex
     def initialize()
         @RawDocuments = []
@@ -29,7 +32,7 @@ class QuickJsIndex
 
     def add_rich_document(id, metadata, text)
         tokens = tokenize_and_stem_english(text)
-        @RawDocuments.append({"id":id,"tokens":tokens,"meta":metadata})
+        @RawDocuments.append({"id"=>id,"tokens"=>tokens,"meta"=>metadata})
     end
 
     def tokenize_and_stem_english(str)

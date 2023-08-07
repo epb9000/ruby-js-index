@@ -1,7 +1,5 @@
-require "porter-stemmer"
-require "json"
 require_relative "quick-js-index"
-
+require "json"
 
 if ARGV[0] == nil
     print "Input directory needed.\n"
@@ -27,7 +25,18 @@ Dir.foreach(directory) do |filename|
     next if filename == '.' or filename == '..'
     compiled_path =  File.join(directory, filename)
     if File.file?(compiled_path)
-        indexBuilder.import_file(compiled_path)
+        if /\.json$/.match(filename) then
+            file = File.open(compiled_path)
+            obj = JSON.parse(file.read)
+            file.close
+            if obj.is_a?(Hash) and obj.has_key?("text")
+                id = obj.has_key?("id") ? obj["id"] : filename
+                meta = obj.has_key?("meta") ? obj["meta"] : nil
+                indexBuilder.add_rich_document(id, meta, obj["text"])
+            end
+        else
+            indexBuilder.import_file(compiled_path)
+        end
     end
 end
 
