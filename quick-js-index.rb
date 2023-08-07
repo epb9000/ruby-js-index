@@ -39,6 +39,7 @@ class QuickJsIndex
         words = str.downcase.sub(/["']/,"").split(/[^\w0-9]+/) - @stopwords
         words.map!{ |x| @stemmer.stem(x) }
         words.uniq
+        words.select{ |x| x.match(/^[0-9]+$/) == nil}
     end
 
     def build_index()
