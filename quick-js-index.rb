@@ -38,8 +38,8 @@ class QuickJsIndex
     def tokenize_and_stem_english(str)
         words = str.downcase.sub(/["']/,"").split(/[^\w0-9]+/) - @stopwords
         words.map!{ |x| @stemmer.stem(x) }
+        words = words.uniq
         words.select{ |x| x.match(/^[0-9]+$/) == nil}
-        words.uniq
     end
 
     def build_index()
