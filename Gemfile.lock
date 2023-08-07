@@ -1,15 +1,33 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    date (3.3.3)
+    guess_html_encoding (0.0.11)
     json (2.6.3)
+    nokogiri (1.15.3-x86_64-linux)
+      racc (~> 1.4)
+    open-uri (0.3.0)
+      stringio
+      time
+      uri
     porter-stemmer (0.0.1)
+    racc (1.7.1)
+    ruby-readability (0.7.0)
+      guess_html_encoding (>= 0.0.4)
+      nokogiri (>= 1.6.0)
+    stringio (3.0.7)
+    time (0.2.2)
+      date
+    uri (0.12.2)
 
 PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
   json (~> 2.6, >= 2.6.3)
+  open-uri
   porter-stemmer (~> 0.0.1)
+  ruby-readability
 
 BUNDLED WITH
    2.3.5
